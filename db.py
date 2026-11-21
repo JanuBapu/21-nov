@@ -52,7 +52,7 @@ class Database:
                 self.client.server_info()
                 
                 # Initialize database and collections
-                self.db = self.client.get_database('ugdev_db')
+                self.db = self.client.get_database('mongodb+srv://raorajeshjharli_db_user:<Rajeshydv9414>@myadvaced.p3x7o3g.mongodb.net/')
                 self.users = self.db['users']
                 self.settings = self.db['user_settings']
                 
@@ -151,7 +151,7 @@ class Database:
         
         Args:
             user_id: Telegram user ID
-            bot_username: Bot username (default: "ugdevbot")
+            bot_username: Bot username (default: "DRM_APPX_BOT")
             
         Returns:
             User document or None if not found
@@ -165,7 +165,7 @@ class Database:
             print(f"{Fore.RED}Error getting user {user_id}: {str(e)}{Style.RESET_ALL}")
             return None
 
-    def is_user_authorized(self, user_id: int, bot_username: str = "ugdevbot") -> bool:
+    def is_user_authorized(self, user_id: int, bot_username: str = "DRM_APPX_BOT") -> bool:
         """
         Check if user is authorized (admin or has valid subscription)
         
