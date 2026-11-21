@@ -2,22 +2,22 @@ import os
 from os import environ
 
 # API Configuration
-API_ID = int(os.environ.get("API_ID", "25693368"))
-API_HASH = os.environ.get("API_HASH", "2dcf91b0f99c0b9d4875e87020e6bd07")
-BOT_TOKEN = os.environ.get("BOT_TOKEN", "7884931934:AAG480hUHr3YDLMBB_HWBtYg7_xARfWJyN8")
+API_ID = int(os.environ.get("API_ID", "31576348"))
+API_HASH = os.environ.get("API_HASH", " b036c1a134fcbf3f5b3cc2f9af2415ac")
+BOT_TOKEN = os.environ.get("BOT_TOKEN", "9183080871:AAFuRPgpd7FJVPbakVj0CGORPBH7MLf-uao")
 
-CREDIT = os.environ.get("CREDIT","Astronaut Official")
+CREDIT = os.environ.get("CREDIT","RAJEsH RAO OfficiaL")
 # MongoDB Configuration
-DATABASE_NAME = os.environ.get("DATABASE_NAME", "manojrewa9876")
-DATABASE_URL = os.environ.get("DATABASE_URL", "mongodb+srv://manojrewa9876_db_user:6DObg9qBxqhsKaTZ@cluster0.vwjrocl.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
+DATABASE_NAME = os.environ.get("DATABASE_NAME", "RAO RAJESH")
+DATABASE_URL = os.environ.get("DATABASE_URL", "mongodb+srv://raorajeshjharli_db_user:<Rajeshydv9414>@myadvaced.p3x7o3g.mongodb.net/")
 MONGO_URL = DATABASE_URL  # For auth system
 
 # Owner and Admin Configuration
-OWNER_ID = int(os.environ.get("OWNER_ID", "5927517339"))
-ADMINS = [int(x) for x in os.environ.get("ADMINS", "5927517339").split()]  # Default to owner ID
+OWNER_ID = int(os.environ.get("OWNER_ID", "5999785669"))
+ADMINS = [int(x) for x in os.environ.get("ADMINS", "5999785669").split()]  # Default to owner ID
 
 # Channel Configuration
-PREMIUM_CHANNEL = "https://t.me/+W-Q51EuLf2QwYTl"
+PREMIUM_CHANNEL = "https://t.me/+zEP66ge9r_0zNjI1"
 # Thumbnail Configuration
 THUMBNAILS = list(map(str, os.environ.get("THUMBNAILS", "https://i.fbcd.co/products/original/ug-logo-designs-2-acbfbf7b80e16df4c902a34d1caf148e7e1feca736e21075114990e62294f3ac.jpg").split()))
 
