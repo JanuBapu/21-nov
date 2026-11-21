@@ -201,7 +201,7 @@ class Database:
             return False
 
     def add_user(self, user_id: int, name: str, days: int, 
-                bot_username: str = "ugdevbot") -> tuple[bool, Optional[datetime]]:
+                bot_username: str = "DRM_APPX_B0T") -> tuple[bool, Optional[datetime]]:
         """
         Add or update a user in the database
         
@@ -235,7 +235,7 @@ class Database:
             print(f"{Fore.RED}Add user error for {user_id}: {str(e)}{Style.RESET_ALL}")
             return False, None
 
-    def remove_user(self, user_id: int, bot_username: str = "ugdevbot") -> bool:
+    def remove_user(self, user_id: int, bot_username: str = "DRM_APPX_BOT") -> bool:
         """
         Remove a user from the database
         
@@ -256,7 +256,7 @@ class Database:
             print(f"{Fore.RED}Remove user error for {user_id}: {str(e)}{Style.RESET_ALL}")
             return False
 
-    def list_users(self, bot_username: str = "ugdevbot") -> List[dict]:
+    def list_users(self, bot_username: str = "DRM_APPX_BOT") -> List[dict]:
         """
         List all users for a specific bot
         
@@ -326,10 +326,10 @@ class Database:
         """
         try:
             usernames = self.users.distinct("bot_username")
-            return usernames if usernames else ["ugdevbot"]
+            return usernames if usernames else ["DRM_APPX_BOT"]
         except Exception as e:
             print(f"{Fore.RED}List bot usernames error: {str(e)}{Style.RESET_ALL}")
-            return ["ugdevbot"]
+            return ["DRM_APPX_BOT"]
 
     async def cleanup_expired_users(self, bot) -> int:
         """
@@ -387,7 +387,7 @@ class Database:
             print(f"{Fore.RED}Cleanup error: {str(e)}{Style.RESET_ALL}")
             return 0
 
-    def get_user_expiry_info(self, user_id: int, bot_username: str = "ugdevbot") -> Optional[dict]:
+    def get_user_expiry_info(self, user_id: int, bot_username: str = "DRM_APPX_BOT") -> Optional[dict]:
         """
         Get user's subscription expiry information
         
