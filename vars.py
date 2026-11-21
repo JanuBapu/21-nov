@@ -2,9 +2,9 @@ import os
 from os import environ
 
 # API Configuration
-API_ID = int(os.environ.get("API_ID", "31576348"))
-API_HASH = os.environ.get("API_HASH", " b036c1a134fcbf3f5b3cc2f9af2415ac")
-BOT_TOKEN = os.environ.get("BOT_TOKEN", "9183080871:AAFuRPgpd7FJVPbakVj0CGORPBH7MLf-uao")
+API_ID = int(os.environ.get("API_ID", "22594398"))
+API_HASH = os.environ.get("API_HASH", " 3a2408d97d6a222d87766dac2da302df")
+BOT_TOKEN = os.environ.get("BOT_TOKEN", "9116619005:AAEH9a5j5OcyVj8NsZ_zCSv6jklYWEyxqzM")
 
 CREDIT = os.environ.get("CREDIT","RAJEsH RAO OfficiaL")
 # MongoDB Configuration
@@ -16,8 +16,8 @@ if not MONGO_URL:
     raise RuntimeError("DATABASE_URL environment variable is not set")
 
 # Owner and Admin Configuration
-OWNER_ID = int(os.environ.get("OWNER_ID", "5999785669"))
-ADMINS = [int(x) for x in os.environ.get("ADMINS", "5999785669").split()]  # Default to owner ID
+OWNER_ID = int(os.environ.get("OWNER_ID", "5357048091"))
+ADMINS = [int(x) for x in os.environ.get("ADMINS", "5357048091").split()]  # Default to owner ID
 
 # Channel Configuration
 PREMIUM_CHANNEL = "https://t.me/+zEP66ge9r_0zNjI1"
