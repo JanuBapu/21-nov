@@ -1,4 +1,6 @@
 import os
+import socket
+from urllib.parse import urlsplit
 from datetime import datetime, timedelta
 from typing import Optional, Dict, List, Union
 from pymongo import MongoClient, errors
@@ -31,8 +33,32 @@ class Database:
         
         self._connect_with_retry(max_retries, retry_delay)
         
+    def _print_connection_diagnostics(self):
+        """Print safe MongoDB configuration diagnostics without exposing credentials."""
+        print(f"{Fore.CYAN}--- MongoDB Connection Diagnostics ---{Style.RESET_ALL}")
+        print(f"DATABASE_URL present: {bool(MONGO_URL)}")
+        try:
+            parsed = urlsplit(MONGO_URL)
+            print(f"URI scheme: {parsed.scheme or 'MISSING'}")
+            print(f"MongoDB host: {parsed.hostname or 'MISSING'}")
+            print(f"Database name: {DATABASE_NAME}")
+            if parsed.scheme not in ("mongodb", "mongodb+srv"):
+                print(f"{Fore.RED}DIAGNOSTIC: URI scheme must be mongodb:// or mongodb+srv://{Style.RESET_ALL}")
+            elif not parsed.hostname:
+                print(f"{Fore.RED}DIAGNOSTIC: MongoDB hostname is missing or URI is malformed.{Style.RESET_ALL}")
+            else:
+                try:
+                    socket.getaddrinfo(parsed.hostname, None)
+                    print(f"{Fore.GREEN}DNS lookup: SUCCESS{Style.RESET_ALL}")
+                except socket.gaierror as dns_error:
+                    print(f"{Fore.RED}DNS lookup: FAILED ({dns_error.__class__.__name__}){Style.RESET_ALL}")
+        except Exception as diagnostic_error:
+            print(f"{Fore.YELLOW}Could not parse MongoDB URI safely: {diagnostic_error.__class__.__name__}{Style.RESET_ALL}")
+        print(f"{Fore.CYAN}--------------------------------------{Style.RESET_ALL}")
+
     def _connect_with_retry(self, max_retries: int, retry_delay: float):
         """Establish MongoDB connection with retry mechanism"""
+        self._print_connection_diagnostics()
         for attempt in range(1, max_retries + 1):
             try:
                 print(f"{Fore.YELLOW}⌛ Attempt {attempt}/{max_retries}: Connecting to MongoDB...{Style.RESET_ALL}")
@@ -66,8 +92,19 @@ class Database:
                     time.sleep(retry_delay)
                 else:
                     raise ConnectionError(f"Failed to connect to MongoDB after {max_retries} attempts") from e
+            except errors.OperationFailure as e:
+                # Do not print the URI or credentials. Atlas authentication failures
+                # commonly arrive here with code 8000.
+                error_code = getattr(e, "code", None)
+                error_message = getattr(e, "details", {}).get("errmsg", "MongoDB operation failed")
+                print(f"{Fore.RED}✕ MongoDB operation/authentication failure{Style.RESET_ALL}")
+                print(f"MongoDB error code: {error_code}")
+                print(f"MongoDB message: {error_message}")
+                if error_code == 8000 or "authentication failed" in str(error_message).lower():
+                    print(f"{Fore.YELLOW}DIAGNOSTIC: Atlas rejected the database credentials. Verify Atlas Database Access username/password, password URL-encoding, and the exact Render DATABASE_URL value. Do not share the URI in logs.{Style.RESET_ALL}")
+                raise
             except Exception as e:
-                print(f"{Fore.RED}✕ Unexpected error during connection: {str(e)}{Style.RESET_ALL}")
+                print(f"{Fore.RED}✕ Unexpected error during connection: {e.__class__.__name__}: {str(e)}{Style.RESET_ALL}")
                 raise
 
     def _print_startup_message(self):
