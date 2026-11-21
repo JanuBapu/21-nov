@@ -9,8 +9,11 @@ BOT_TOKEN = os.environ.get("BOT_TOKEN", "9183080871:AAFuRPgpd7FJVPbakVj0CGORPBH7
 CREDIT = os.environ.get("CREDIT","RAJEsH RAO OfficiaL")
 # MongoDB Configuration
 DATABASE_NAME = os.environ.get("DATABASE_NAME", "RAO RAJESH")
-DATABASE_URL = os.environ.get("DATABASE_URL", "mongodb+srv://raorajeshjharli_db_user:<Rajeshydv9414>@myadvaced.p3x7o3g.mongodb.net/")
-MONGO_URL = DATABASE_URL  # For auth system
+DATABASE_URL = os.environ.get("DATABASE_URL")
+MONGO_URL = DATABASE_URL
+
+if not MONGO_URL:
+    raise RuntimeError("DATABASE_URL environment variable is not set")
 
 # Owner and Admin Configuration
 OWNER_ID = int(os.environ.get("OWNER_ID", "5999785669"))
