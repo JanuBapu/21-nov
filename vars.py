@@ -9,7 +9,7 @@ BOT_TOKEN = os.environ.get("BOT_TOKEN", "9116619005:AAEH9a5j5OcyVj8NsZ_zCSv6jklY
 CREDIT = os.environ.get("CREDIT","RAJEsH RAO OfficiaL")
 # MongoDB Configuration
 DATABASE_NAME = os.environ.get("DATABASE_NAME", "RAO RAJESH")
-DATABASE_URL = os.environ.get("DATABASE_URL")
+DATABASE_URL = os.environ.get("DATABASE_URL", "mongodb+srv://Janubapu:fjZ5KU4gSVFNxRDa@cluster0.ld2ya.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
 MONGO_URL = DATABASE_URL
 
 if not MONGO_URL:
