@@ -643,3 +643,62 @@ async def send_vid(bot: Client, m: Message, cc, filename, thumb, name, prog, cha
         
         if thumb in ["/d", "no"] and os.path.exists(temp_thumb):
             os.remove(temp_thumb)
+
+
+# --- Safe download validation additions (original code above is preserved) ---
+_original_download_video = download_video
+
+async def download_video(url, cmd, name):
+    """Validate the file returned by the original downloader."""
+    result = await _original_download_video(url, cmd, name)
+
+    candidates = result if isinstance(result, list) else [result]
+    valid_files = [
+        item for item in candidates
+        if isinstance(item, str)
+        and os.path.isfile(item)
+        and os.path.getsize(item) > 0
+    ]
+
+    if not valid_files:
+        raise FileNotFoundError(
+            f"Download did not create a valid output file for: {name}"
+        )
+
+    return valid_files
+
+
+def duration(filename):
+    """Return media duration only when ffprobe succeeds with numeric output."""
+    result = subprocess.run(
+        [
+            "ffprobe", "-v", "error", "-show_entries",
+            "format=duration", "-of",
+            "default=noprint_wrappers=1:nokey=1", filename
+        ],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        text=True
+    )
+
+    output = (result.stdout or "").strip()
+    error_output = (result.stderr or "").strip()
+
+    if result.returncode != 0:
+        raise RuntimeError(
+            f"ffprobe failed for '{filename}': "
+            f"{error_output or output or 'unknown ffprobe error'}"
+        )
+
+    try:
+        value = float(output)
+    except (TypeError, ValueError):
+        raise ValueError(
+            f"ffprobe returned a non-numeric duration for '{filename}': "
+            f"{output or error_output or 'empty output'}"
+        )
+
+    if value <= 0:
+        raise ValueError(f"Invalid media duration for '{filename}': {value}")
+
+    return value
