@@ -52,7 +52,7 @@ class Database:
                 self.client.server_info()
                 
                 # Initialize database and collections
-                self.db = self.client.get_database('mongodb+srv://raorajeshjharli_db_user:<Rajeshydv9414>@myadvaced.p3x7o3g.mongodb.net/')
+                self.db = self.client.get_database(DATABASE_NAME)
                 self.users = self.db['users']
                 self.settings = self.db['user_settings']
                 
